@@ -1,0 +1,23 @@
+{
+  "exp_name": "whales",
+
+  "image_size": 64,
+  "image_depth": 3,
+  "num_classes": 6,
+
+  "batch_size": 32,
+  "num_epochs": 40,
+
+  "learning_rate": 1e-3,
+
+  "max_to_keep": 2,
+
+  "num_filters": 16,
+  "use_random_flip": true,
+
+  "use_batch_norm": true,
+  "bn_momentum": 0.9,
+
+  "num_parallel_calls": 4,
+  "save_summary_steps": 1
+}

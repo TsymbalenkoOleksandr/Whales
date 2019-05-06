@@ -13,11 +13,10 @@ representative as possible, we'll take 20% of "train_signs" as dev set.
 import os
 import sys
 
-sys.path.extend(['../..'])
+sys.path.extend(['..'])
 
 import random
 import numpy as np
-import pandas as pd
 from PIL import Image
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -46,7 +45,8 @@ def main(image_size):
     test_filenames = os.listdir(test_data_dir)
     test_filenames = [os.path.join(test_data_dir, f) for f in test_filenames if f.endswith('.jpg')]
 
-    preprocess = processImage(filenames)
+    # fliped, rotated = processImage(filenames)
+    # images = filenames + fliped + rotated
 
     # Split the images in 'train_signs' into 80% train and 20% dev
     # Make sure to always shuffle with a fixed seed so that the split is reproducible
@@ -63,7 +63,7 @@ def main(image_size):
                  'test': test_filenames}
 
     # Define output dir
-    output_dir = 'READY_SIGNS'
+    output_dir = 'READY_WHALES'
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     else:
@@ -71,7 +71,7 @@ def main(image_size):
 
     # Preprocess train, dev and test
     for split in ['train', 'dev', 'test']:
-        output_dir_split = os.path.join(output_dir, '{}_signs'.format(split))
+        output_dir_split = os.path.join(output_dir, '{}_whales'.format(split))
         if not os.path.exists(output_dir_split):
             os.mkdir(output_dir_split)
         else:
@@ -83,7 +83,15 @@ def main(image_size):
 
     print('Done building dataset')
 
-def processImage(filename):
+# def processImage(filenames):
+#     flipped = []
+#     rotated = []
+#     for i in filenames:
+#         print("Image {}".format(i))
+#         # flipped.append(np.flipud(Image.open(i)))
+#         rotated.append(Image.open(i).rotate(40))
+#     print("This is the end")
+#     return flipped, rotated
 
 
 if __name__ == '__main__':

@@ -12,17 +12,17 @@ pip install -r requirements.txt
 
 Run dataset preprocessor
 ```bash
-cd data/cifar100
+cd data
 python prepare_whales.py
 ```
 
 To train the model use:
 ```bash
 cd mains
-python main_whales.py -c ../configs/cifar100.json
+python main_whales.py -c ../configs/whales.json
 ```
 
 Open one more terminal window and run tensorboard. Watch metrics in near real-time
 ```bash
-tensorboard --logdir experiments/cifar_example_exp_1/summary
+tensorboard --logdir experiments/whales/summary
 ```

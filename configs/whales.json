@@ -3,7 +3,7 @@
 
   "image_size": 64,
   "image_depth": 3,
-  "num_classes": 6,
+  "num_classes": 9850,
 
   "batch_size": 32,
   "num_epochs": 40,

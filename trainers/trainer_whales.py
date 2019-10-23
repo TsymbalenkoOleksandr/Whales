@@ -6,7 +6,7 @@ import tensorflow as tf
 from utils.metrics import AverageMeter
 
 
-class SignsTrainer(BaseTrain):
+class WhalesTrainer(BaseTrain):
     def __init__(self, sess, model, config, logger, data_loader):
         """
         Constructing the Cifar trainer based on the Base Train..
@@ -22,7 +22,7 @@ class SignsTrainer(BaseTrain):
         :param logger:
         :param data_loader:
         """
-        super(SignsTrainer, self).__init__(sess, model, config, logger, data_loader)
+        super(WhalesTrainer, self).__init__(sess, model, config, logger, data_loader)
 
         # load the model from the latest checkpoint
         self.model.load(self.sess)

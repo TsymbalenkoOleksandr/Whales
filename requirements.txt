@@ -1,9 +1,11 @@
 numpy
 Pillow
-ttensorflow
+tensorflow>=1.5
 tabulate
 tqdm
 imageio
 easydict
 matplotlib
 pandas
+logging
+sklearn

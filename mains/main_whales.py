@@ -1,12 +1,13 @@
 import sys
+import logging
 
-sys.path.extend(['..'])
+sys.path.append('..')
 
 import tensorflow as tf
 
 from data_generators.generator_whales import WhalesTfLoader
-from models.model_signs import SignsModel
-from trainers.trainer_signs import SignsTrainer
+from models.model_whales import SignsModel
+from trainers.trainer_whales import WhalesTrainer
 
 from utils.config import process_config
 from utils.dirs import create_dirs
@@ -46,7 +47,7 @@ def main():
                                             'eval/loss_per_epoch','eval/acc_per_epoch'])
 
     # create trainer and path all previous components to it
-    trainer = SignsTrainer(sess, model, config, logger, data_loader)
+    trainer = WhalesTrainer(sess, model, config, logger, data_loader)
 
     # here you train your model
     trainer.train()

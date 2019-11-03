@@ -15,8 +15,10 @@ import sys
 
 sys.path.extend(['..'])
 
+import PIL
 import random
 import numpy as np
+import pandas as pd
 from PIL import Image
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -25,13 +27,32 @@ from utils.utils import get_args
 from utils.config import process_config
 
 
-def resize_and_save(filename, output_dir, size):
-    """Resize the image contained in `filename` and save it to the `output_dir`"""
+def agment_and_save(filename, output_dir, size):
+    """Resize the image contained in `filename` and save it to the `output_dir` and augment it"""
     image = Image.open(filename)
     # Use bilinear interpolation instead of the default "nearest neighbor" method
     image = image.resize((size, size), Image.BILINEAR)
-    image.save(os.path.join(output_dir, filename.split('\\')[-1]))
+    # augment images based on quantity in accordant class
+    lists = pd.read_csv('./data_set/train.csv')
+    transform = pd.read_csv('./data_set/results.csv')
+    ids = lists[lists['Image'] == os.path.basename(filename)]['Id'].values[0]
+    random.seed()
+    # print('!!!!!!!!!!!!!!!! {}'.format(transform[transform['Id'] == ids]['checked'].values[0]))
 
+    # I will set true to images already cheked, not to repeate process again for new image
+    # Also value should be positive. Means number of images less than 100
+    if (transform[transform['Id'] == ids]['size_add'].values[0] >= 0) & (transform[transform['Id'] == ids]['checked'].values[0] != True):
+        transform[transform['Id'] == ids]['checked'] = True
+        for i in range(transform[transform['Id'] == ids]['size_add'].values[0]):
+            deg = random.randint(0, 180)
+            temp_image = image.rotate(deg)
+            # randomly flip image 
+            if random.choice([1, 0]):
+                temp_image.transpose(PIL.Image.FLIP_LEFT_RIGHT)
+            # random crop of part of image
+            if random.choice([1, 0]):
+                temp_image.crop((0, 10, size, size-10))
+            temp_image.save(os.path.join(output_dir, str(i) + '_' + filename.split('\\')[-1]))
 
 def main(image_size):
     # Define the data directories
@@ -79,7 +100,7 @@ def main(image_size):
 
         print('Processing {} data, saving preprocessed data to {}'.format(split, output_dir_split))
         for filename in tqdm(filenames[split]):
-            resize_and_save(filename, output_dir_split, image_size)
+            agment_and_save(filename, output_dir_split, image_size)
 
     print('Done building dataset')
 
@@ -105,4 +126,4 @@ if __name__ == '__main__':
     except Exception as e:
         print('Missing or invalid arguments %s' % e)
         print('Using default 64x64 size')
-        main(64)
+        main(224)
